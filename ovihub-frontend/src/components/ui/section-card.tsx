@@ -17,7 +17,9 @@ const SectionCard = ({
 }: SectionCardProps) => {
 
    return (
-   <div className="w-full md:max-w-md bg-neutral-primary-soft p-4 border border-default rounded-2xl shadow-xs">
+   <div className="w-full md:max-w-md bg-neutral-primary-soft p-4 border border-default rounded-2xl shadow-xs
+    duration-300 hover:shadow-xl
+   ">
       
       <div className={`w-12 h-12 rounded-xl ${bgColor} flex items-center justify-center border border-border`}>
         <Icon className={`w-6 h-6 ${iconColor}`}  />

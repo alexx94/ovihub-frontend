@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import SectionCard from "@/components/ui/section-card";
 import { Separator } from "@/components/ui/separator";
 import { motion } from "framer-motion";
-import { CalendarDays, Ghost, Newspaper, Store } from "lucide-react";
+import { CalendarDays, Newspaper, Store } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const features = [
@@ -76,7 +76,7 @@ const Index = () => {
           <h1 className="text-2xl font-semibold">Toate informatiile intr-un singur loc</h1>
           <h3 className="text-lg font-light text-gray-500">Ovihub iti ofera acces rapid la toate noutatile si evenimentele universitatii tale.</h3>
         </div>
-        <div className="flex flex-col md:flex-row px-4 gap-4 mb-4">
+        <div className="flex flex-col md:flex-row justify-center px-4 gap-8 mb-4">
           {features.map((feature) => {
             return (
               <SectionCard 
