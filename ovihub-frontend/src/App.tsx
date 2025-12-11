@@ -5,9 +5,13 @@ import Profile from "./pages/Profile";
 import News from "./pages/News";
 import Events from "./pages/Events";
 import Admin from "./pages/Admin";
+import Login from "./pages/Login";
 
 // Declaram endpointurile aplicatiei frontend, direct fara return, pt ca scriem doar expresia din return in aplicatie,
 // nu e nevoie sa mai returnam ceva manual, se returneaza direct aia
+
+//TODO: Pagina '/profile' va redirectiona pe cei cu rol 'admin' catre pagina '/admin', si ceilalti
+//      care incearca sa acceseze '/admin' sunt redirectionati la '/profile' automat.
 const App = () => (
   <BrowserRouter>
     <Routes>
@@ -19,6 +23,7 @@ const App = () => (
         <Route path="news" element={<News />} />
         <Route path="events" element={<Events />} />
         <Route path="admin" element={<Admin />} />
+        <Route path="login" element={<Login />} />
       </Route>
     </Routes>
   </BrowserRouter>
