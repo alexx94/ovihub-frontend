@@ -77,9 +77,10 @@ const Index = () => {
           <h3 className="text-lg font-light text-gray-500">Ovihub iti ofera acces rapid la toate noutatile si evenimentele universitatii tale.</h3>
         </div>
         <div className="flex flex-col md:flex-row justify-center px-4 gap-8 mb-4">
-          {features.map((feature) => {
+          {features.map((feature, index) => {
             return (
               <SectionCard 
+                key={index}
                 icon={feature.icon}
                 title={feature.title}
                 description={feature.description}

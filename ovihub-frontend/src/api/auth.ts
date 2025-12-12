@@ -5,15 +5,22 @@ interface LoginData{
    password: string;
 }
 
-interface LoginResponse {
+export interface LoginResponse {
   success: boolean;
-  message: string;
-  token: string;
-  userId: string;
-  email: string;
+  message?: string;
+  error?: string;
+  token?: string;
+  userId?: string;
+  email?: string;
 }
 
-async function login(data: LoginData): Promise<LoginResponse> {
-   const res = await api.post("/Auth/login", data);
+async function loginApi(data: LoginData): Promise<LoginResponse> {
+   const res = await api.post("/Auth/login", data, {
+      validateStatus: () => true
+   });
    return res.data;
 }
+
+//TODO: Logout, register (for new users only, allowed by admin users in backend only)
+
+export { loginApi };

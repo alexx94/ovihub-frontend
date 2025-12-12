@@ -1,9 +1,26 @@
 import { GalleryVerticalEnd } from "lucide-react"
 
-import { LoginForm } from "@/components/login-form"
-import { Link } from "react-router-dom"
+import LoginForm from "@/components/login-form"
+import { Link, useNavigate } from "react-router-dom"
+import { useLogin } from "@/hooks/useLogin"
+import { useAuth } from "@/hooks/useAuth";
 
 const Login = () => {
+  const {
+    login, isLoading,
+    error
+  } = useLogin();
+  const navigate = useNavigate();
+  const {fetchMe} = useAuth();
+  
+  async function handleLogin(email:string, password: string) {
+    const result = await login(email, password);
+    if (result && typeof(result) !== "string" && result.success === true) {
+      await fetchMe();
+      navigate("/"); // pe viitor probabil redirectionez pe profile page sau news
+    }
+  }
+
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
       <div className="flex flex-col gap-4 p-6 md:p-10">
@@ -19,7 +36,11 @@ const Login = () => {
         </div>
         <div className="flex flex-1 items-center justify-center">
           <div className="w-full max-w-xs">
-            <LoginForm />
+            <LoginForm 
+              onSubmit={handleLogin}
+              isLoading={isLoading}
+              error={error}
+            />
           </div>
         </div>
       </div>
