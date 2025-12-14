@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getMeApi } from "@/api/user";
 import { AuthContext } from "./AuthContext";
+import { logoutApi } from "@/api/auth";
 import type { MeResponse } from "@/api/user";
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -21,7 +22,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
    };
 
-   const logout = () => setUser(null);
+   const logout = () => {
+      setLoading(true);
+      logoutApi();
+      setUser(null);
+      setLoading(false);
+      console.log("S-a facut logout log check 2/2");
+   };
 
    useEffect(() => { fetchMe(); }, []);
 

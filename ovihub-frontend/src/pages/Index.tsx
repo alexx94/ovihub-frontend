@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import SectionCard from "@/components/ui/section-card";
 import { Separator } from "@/components/ui/separator";
-import { motion } from "framer-motion";
 import { CalendarDays, Newspaper, Store } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -34,11 +33,6 @@ const features = [
 const Index = () => {
   return (
     <>
-    <motion.div
-            initial={{opacity: 0, y: 20}}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-    >
       {/* Hero section */}
       <section className="flex-col text-center py-6 space-y-4 bg-radial from-blue-100 to-blue-200 ">
         <div className="p-4">
@@ -110,7 +104,6 @@ const Index = () => {
         </div>
       </section>
       
-    </motion.div>
     </>
     
   );

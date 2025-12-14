@@ -19,8 +19,15 @@ async function loginApi(data: LoginData): Promise<LoginResponse> {
       validateStatus: () => true
    });
    return res.data;
-}
+};
+
+async function logoutApi(): Promise<string> {
+   const res = await api.post("/Auth/logout", {
+
+   });
+   return res.data;
+};
 
 //TODO: Logout, register (for new users only, allowed by admin users in backend only)
 
-export { loginApi };
+export { loginApi, logoutApi };
