@@ -1,8 +1,9 @@
 import { createContext } from "react";
-import type { MeResponse } from "@/api/user";
+import type { MeResponse, Roles } from "@/api/user";
 
 interface AuthContextType {
    user: MeResponse | null;
+   roles: Roles[] | null;
    loading: boolean;
    fetchMe: () => Promise<void>;
    logout: () => void;

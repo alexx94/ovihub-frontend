@@ -1,9 +1,11 @@
 import { motion } from "framer-motion";
 import Footer from "./Footer";
 import Nav from "./nav/Nav";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 const Layout = () => {
+   const location = useLocation();
+   
    return (
       <div className="min-h-screen w-full bg-background">
          <Nav />

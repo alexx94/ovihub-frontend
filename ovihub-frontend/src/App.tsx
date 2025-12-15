@@ -8,6 +8,8 @@ import Admin from "./pages/Admin";
 import Login from "./pages/Login";
 import { AuthProvider } from "@/contexts/AuthProvider";
 import ProtectedRoute from "./routes/ProtectedRoutes";
+import ProtectedPage from "./routes/ProtectedPage";
+import { ROLES } from "./api/user";
 
 // Declaram endpointurile aplicatiei frontend, direct fara return, pt ca scriem doar expresia din return in aplicatie,
 // nu e nevoie sa mai returnam ceva manual, se returneaza direct aia
@@ -18,21 +20,28 @@ const App = () => (
   <BrowserRouter>
     <AuthProvider>
       <Routes>
-
-        {/* Protected Routes (it includes layout for 0 glitching and better UX) */}
+        {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
           <Route element={<Layout />}>
-            <Route path="news" element={<News />} />
+            <Route path="news" element={<News />} />             
+            <Route path="admin" element={
+              // Asta e cam redundant ca e practic la fel ca ProtectedRoute, dar cu children nu Outlet
+              // Solutia cea mai simpla cred ca ramane sa randez efectiv la fiecare pagina componenta de Layout, si aia e
+              // ca sa nu mai depind de ea ca aici
+              <ProtectedPage allowedRoles={[ROLES.ADMIN]}>
+                <Admin />
+              </ProtectedPage>
+            } />
           </Route>
         </Route>
+          
 
         {/* Public Routes */}
         <Route element={<Layout />}>
           {/* Public Routes with layout aswell */}
           <Route index element={<Index />} />
           <Route path="events" element={<Events />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="admin" element={<Admin />} />
+          <Route path="profile" element={<Profile />} /> 
         </Route>
 
         {/* Public Route that doesn't need layout */}

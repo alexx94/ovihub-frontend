@@ -21,6 +21,15 @@ export interface UserProfile {
   phoneNumber: string | null;
 }
 
+export const ROLES = {
+   ADMIN: "ADMIN",
+   PROFESSOR: "PROFESSOR",
+   STUDENT: "STUDENT",
+} as const;
+
+export type Roles = typeof ROLES[keyof typeof ROLES];
+
+
 async function getMeApi(): Promise<MeResponse> {
    const res = await api.get("/api/User/me", {
       validateStatus: () => true
@@ -35,7 +44,14 @@ async function getMyProfileApi(): Promise<UserProfile> {
    return res.data;
 }
 
+async function getMyRolesApi(): Promise<Roles[]> {
+   const res = await api.get("api/User/me/roles", {
+      validateStatus: () => true
+   });
+   return res.data;
+}
+
 //todo: inclus aici si own roles, ca sa setam si roles in AuthContext pt ProtectedRoutes
 //      sau se poate face separat role.ts, vedem***
 
-export {getMeApi, getMyProfileApi};
+export {getMeApi, getMyProfileApi, getMyRolesApi};

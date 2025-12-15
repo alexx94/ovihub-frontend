@@ -1,16 +1,30 @@
+import type { Roles } from "@/api/user";
 import { useAuth } from "@/hooks/useAuth";
-import { Outlet, Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
 //TODO: Roles props, cu care apelez useRoles hook sa verifice rolurile userilor, contextul roles idk
 
-const ProtectedRoute = () => {
-   const { user, loading: authLoading } = useAuth();
+interface ProtectedRouteProps {
+   allowedRoles?: Roles[];
+}
+
+const ProtectedRoute = ({
+   allowedRoles,
+}: ProtectedRouteProps) => {
+   const { user, roles, loading: authLoading } = useAuth();
 
    if (authLoading) return null;
 
    if (!user) {
       //TODO: Include toast component (from sonner shadcn) and display error on screen 'Not auth'
-      return <Navigate to={"/login"} replace/>
+      console.log("Userul nu este autentificat.");
+      return <Navigate to={"/login"} replace />
+   }
+
+   if (allowedRoles && roles && !allowedRoles.some((r) => roles.includes(r))) {
+      //TODO: Include toast 'Nu ai permisiuni'
+      console.log("Userul nu are unul din rolurile: " + allowedRoles);
+      return <Navigate to={"/"} replace />
    }
 
    return <Outlet />
