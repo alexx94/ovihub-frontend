@@ -7,6 +7,7 @@ import Events from "./pages/Events";
 import Admin from "./pages/Admin";
 import Login from "./pages/Login";
 import { AuthProvider } from "@/contexts/AuthProvider";
+import ProtectedRoute from "./routes/ProtectedRoutes";
 
 // Declaram endpointurile aplicatiei frontend, direct fara return, pt ca scriem doar expresia din return in aplicatie,
 // nu e nevoie sa mai returnam ceva manual, se returneaza direct aia
@@ -27,7 +28,11 @@ const App = () => (
 
           {/* Rute catre celelalte endpointuri */}
           <Route path="profile" element={<Profile />} /> 
-          <Route path="news" element={<News />} />
+          <Route path="news" element={
+            <ProtectedRoute>
+              <News />
+            </ProtectedRoute>
+          } />
           <Route path="events" element={<Events />} />
           <Route path="admin" element={<Admin />} />
           <Route path="login" element={<Login />} />
