@@ -1,15 +1,9 @@
 import { useAuth } from "@/hooks/useAuth";
-import type { ReactNode } from "react";
-import { Navigate } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 
-interface ProtectedRouteProps {
-   //TODO: Roles props, cu care apelez useRoles hook sa verifice rolurile userilor, contextul roles idk
-   children: ReactNode;
-}
+//TODO: Roles props, cu care apelez useRoles hook sa verifice rolurile userilor, contextul roles idk
 
-const ProtectedRoute = ({
-   children
-}: ProtectedRouteProps) => {
+const ProtectedRoute = () => {
    const { user, loading: authLoading } = useAuth();
 
    if (authLoading) return null;
@@ -19,7 +13,7 @@ const ProtectedRoute = ({
       return <Navigate to={"/login"} replace/>
    }
 
-   return <>{children}</>
+   return <Outlet />
 };
 
 export default ProtectedRoute;

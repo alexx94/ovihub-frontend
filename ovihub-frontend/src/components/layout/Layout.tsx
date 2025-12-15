@@ -1,17 +1,12 @@
 import { motion } from "framer-motion";
 import Footer from "./Footer";
 import Nav from "./nav/Nav";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 const Layout = () => {
-   // hide nav + footer at login page
-   const location = useLocation();
-
-   const hideNavFooter = (location.pathname === "/login");
-
    return (
       <div className="min-h-screen w-full bg-background">
-         {!hideNavFooter && <Nav />}
+         <Nav />
          <main>
             <motion.div
             key={location.pathname}
@@ -23,7 +18,7 @@ const Layout = () => {
                <Outlet /> 
             </motion.div>
          </main>
-         {!hideNavFooter && <Footer />}
+         <Footer />
       </div>
    )
 };

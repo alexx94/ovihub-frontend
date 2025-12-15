@@ -16,27 +16,27 @@ import ProtectedRoute from "./routes/ProtectedRoutes";
 //      care incearca sa acceseze '/admin' sunt redirectionati la '/profile' automat.
 const App = () => (
   <BrowserRouter>
-  {/* TODO: AuthContext aplicat global cu care iau userul daca exista, sa il 
-    reutilizez apoi direct asa pe toate paginile astea, handle si la sign out button 
-    sa seteze null asta. Si apoi ProtectedRoute component ca sa verific context, rol etc.,
-    si sa restrictionez anumite endpointuri
-  */}
     <AuthProvider>
       <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Index />} />
 
-          {/* Rute catre celelalte endpointuri */}
-          <Route path="profile" element={<Profile />} /> 
-          <Route path="news" element={
-            <ProtectedRoute>
-              <News />
-            </ProtectedRoute>
-          } />
-          <Route path="events" element={<Events />} />
-          <Route path="admin" element={<Admin />} />
-          <Route path="login" element={<Login />} />
+        {/* Protected Routes (it includes layout for 0 glitching and better UX) */}
+        <Route element={<ProtectedRoute />}>
+          <Route element={<Layout />}>
+            <Route path="news" element={<News />} />
+          </Route>
         </Route>
+
+        {/* Public Routes */}
+        <Route element={<Layout />}>
+          {/* Public Routes with layout aswell */}
+          <Route index element={<Index />} />
+          <Route path="events" element={<Events />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="admin" element={<Admin />} />
+        </Route>
+
+        {/* Public Route that doesn't need layout */}
+        <Route path="login" element={<Login />} />
       </Routes>
     </AuthProvider>
   </BrowserRouter>
