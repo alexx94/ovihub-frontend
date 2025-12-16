@@ -28,6 +28,10 @@ const App = () => (
               // Asta e cam redundant ca e practic la fel ca ProtectedRoute, dar cu children nu Outlet
               // Solutia cea mai simpla cred ca ramane sa randez efectiv la fiecare pagina componenta de Layout, si aia e
               // ca sa nu mai depind de ea ca aici
+
+              // Sau sa fac protected route pt fiecare caz posibil (orice combinatie de
+              // allowed roles, are un set de protected routes si aia e, fara probleme,
+              // atat ca arata app.tsx mai 'mare', dar e perfect functioal si corect)
               <ProtectedPage allowedRoles={[ROLES.ADMIN]}>
                 <Admin />
               </ProtectedPage>
