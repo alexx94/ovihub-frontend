@@ -7,9 +7,9 @@ const Layout = () => {
    const location = useLocation();
    
    return (
-      <div className="min-h-screen w-full bg-background">
+      <div className="min-h-screen w-full bg-background flex flex-col">
          <Nav />
-         <main>
+         <main className="flex-1">
             <motion.div
             key={location.pathname}
             initial={{opacity: 0, y: 20}}

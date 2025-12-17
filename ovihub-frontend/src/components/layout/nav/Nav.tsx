@@ -6,18 +6,21 @@ import { Newspaper, CalendarDays, User, Shield, Menu, X} from 'lucide-react';
 import { useState } from "react";
 import NavItem from "./NavItem";
 import AuthNavItem from "./AuthNavItem";
+import { useAuth } from "@/hooks/useAuth";
+import { ROLES } from "@/api/user";
 
 // Linkuri din sectiunea principala de navigare
 const navLinks = [
   {href: "/news", label: "Anunturi", icon: Newspaper},
   {href: "/events", label: "Evenimente", icon: CalendarDays},
   {href: "/profile", label: "Profil", icon: User},
-  {href: "/admin", label: "Admin", icon: Shield}
+  {href: "/admin", label: "Admin", icon: Shield, role: ROLES.ADMIN}
 ]
 
 const Nav = () => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState<boolean>();
+  const { roles } = useAuth();
 
   return (
     // 1. Containerul principal
@@ -41,7 +44,12 @@ const Nav = () => {
         
         {/* Navigation Bar, paginile accesibile de user, hidden cand e pe mobil, display flex pe dispozitive mari */}
         <div className="hidden items-center gap-4 md:flex p-1">
-          {navLinks.map((link) => (
+          {navLinks
+            .filter(
+              (link) =>
+                !link.role || roles?.includes(link.role)
+            )
+            .map((link) => (
             <NavItem
               key={link.href}
               href={link.href}
@@ -79,7 +87,12 @@ const Nav = () => {
         <div className="md:hidden sm:flex ">
           <div className="">
             <div className="flex flex-col space-y-2 text-left">
-              {navLinks.map((link) => (
+              {navLinks
+                .filter(
+                  (link) => 
+                    !link.role || roles?.includes(link.role)
+                )
+                .map((link) => (
                 <NavItem
                   key={link.href}
                   href={link.href}

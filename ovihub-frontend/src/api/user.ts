@@ -34,6 +34,7 @@ async function getMeApi(): Promise<MeResponse> {
    const res = await api.get("/api/User/me", {
       validateStatus: () => true
    });
+   console.log("Fetching user roles: ", Date.now())
    return res.data;
 }
 
@@ -48,6 +49,7 @@ async function getMyRolesApi(): Promise<Roles[]> {
    const res = await api.get("api/User/me/roles", {
       validateStatus: () => true
    });
+   console.log("Fetching user roles: ", Date.now())
    return res.data;
 }
 

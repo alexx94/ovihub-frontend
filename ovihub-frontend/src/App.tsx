@@ -23,7 +23,9 @@ const App = () => (
         {/* Protected Routes */}
         <Route element={<ProtectedRoute />}>
           <Route element={<Layout />}>
-            <Route path="news" element={<News />} />             
+            <Route path="news" element={<News />} />  
+            <Route path="events" element={<Events />} />
+            <Route path="profile" element={<Profile />} />            
             <Route path="admin" element={
               // Asta e cam redundant ca e practic la fel ca ProtectedRoute, dar cu children nu Outlet
               // Solutia cea mai simpla cred ca ramane sa randez efectiv la fiecare pagina componenta de Layout, si aia e
@@ -44,8 +46,6 @@ const App = () => (
         <Route element={<Layout />}>
           {/* Public Routes with layout aswell */}
           <Route index element={<Index />} />
-          <Route path="events" element={<Events />} />
-          <Route path="profile" element={<Profile />} /> 
         </Route>
 
         {/* Public Route that doesn't need layout */}
