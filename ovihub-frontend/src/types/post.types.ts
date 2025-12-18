@@ -38,6 +38,16 @@ export interface BackendPost {
   author: string;
   images: BackendPostImage[];
 }
+/**
+ * Post data input (what is sent to backend for processing as DTO)
+ */
+export interface CreatePostData {
+  title: string;
+  description: string;
+  postType: PostType;
+  postImageIds?: number[];
+}
+
 
 /**
  * Post data after transformation (clean for frontend use)

@@ -4,8 +4,10 @@ import { PageHeader } from "@/components/shared/PageHeader";
 import { PostCard } from "@/components/shared/PostCard";
 import { useAuth } from "@/hooks/useAuth";
 import { usePaginatedPosts } from "@/hooks/usePaginatedPosts";
-import { Calendar, ChevronLeft, ChevronRight } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import { PaginationButtons } from "@/components/shared/PaginationButtons";
 
 const News = () => {
   const { roles } = useAuth();
@@ -34,17 +36,31 @@ const News = () => {
 
         {roles?.includes(ROLES.PROFESSOR) && (
           <div>
-            <Button
-              className="mt-4"
-              onClick={() => {
-                console.log("Add post button clicked");
-              }} //TODO: Handler with modal etc.
-            >
-              Adaugă Eveniment
-            </Button>
+            <Link to={"/upload"}>
+              <Button
+                className="mt-4 hover:cursor-pointer"
+                onClick={() => {
+                  console.log("Add post button clicked");
+                  
+                }} 
+              >
+                Adaugă Eveniment
+              </Button>
+            </Link>
           </div>
         )}
       </div>
+
+      {/* Pagination Controls - Always visible except on very first load */}
+      {!isLoading && !error && (
+        <PaginationButtons
+          currentPage={currentPage}
+          isLoading={isLoading}
+          hasMore={hasMore}
+          onPrev={goToPreviousPage}
+          onNext={goToNextPage}
+        />
+      )}
 
       {/* Error State */}
       {error && (
@@ -93,37 +109,6 @@ const News = () => {
                   : "Reveniți mai târziu pentru a vedea noutăți"
                 }
               </p>
-            </div>
-          )}
-
-          {/* Pagination Controls - Always visible except on very first load */}
-          {(currentPage > 1 || posts.length > 0) && (
-            <div className="mt-8 flex items-center justify-center gap-4">
-              <Button
-                variant="outline"
-                size="default"
-                onClick={goToPreviousPage}
-                disabled={currentPage === 1 || isLoading}
-                className="gap-2"
-              >
-                <ChevronLeft className="h-4 w-4" />
-                Înapoi
-              </Button>
-
-              <span className="text-sm font-medium text-muted-foreground">
-                Pagina {currentPage}
-              </span>
-
-              <Button
-                variant="outline"
-                size="default"
-                onClick={goToNextPage}
-                disabled={!hasMore || isLoading}
-                className="gap-2"
-              >
-                Înainte
-                <ChevronRight className="h-4 w-4" />
-              </Button>
             </div>
           )}
         </>

@@ -1,6 +1,7 @@
 import { api } from "./index"; // axios instance-ul tău
 import type { 
   Post,
+  CreatePostData,
   BackendPost,
   BackendPostImage,
   PostImage, 
@@ -61,3 +62,25 @@ export const fetchPaginatedPosts = async (
     throw error;
   }
 };
+
+export const createPost = async (data: CreatePostData): Promise<Post> => {
+  console.log("Date de input POST: ", data)
+  const response = await api.post<Post>("/api/Post", data);
+  return response.data;
+};
+
+export const uploadPostImages = async(files: File[]): Promise<PostImage[]> => {
+  const formData = new FormData();
+
+  files.forEach((file) => {
+    formData.append("files", file);
+  });
+
+  const response = await api.post<PostImage[]>("/api/post-image/upload", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+  return response.data;
+}

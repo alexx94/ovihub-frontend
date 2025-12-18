@@ -10,6 +10,7 @@ import { AuthProvider } from "@/contexts/AuthProvider";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 import ProtectedPage from "./routes/ProtectedPage";
 import { ROLES } from "./api/user";
+import Upload from "./pages/Upload";
 
 // Declaram endpointurile aplicatiei frontend, direct fara return, pt ca scriem doar expresia din return in aplicatie,
 // nu e nevoie sa mai returnam ceva manual, se returneaza direct aia
@@ -46,6 +47,7 @@ const App = () => (
         <Route element={<Layout />}>
           {/* Public Routes with layout aswell */}
           <Route index element={<Index />} />
+          <Route path="upload" element={<Upload />} />
         </Route>
 
         {/* Public Route that doesn't need layout */}
