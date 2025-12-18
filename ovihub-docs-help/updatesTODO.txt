@@ -1,0 +1,38 @@
+pagina ADMIN:
+Toate operatiunile sa contina un confirm button, sunteti sigur ca....(+ descriere specifica fiecarui buton in parte, modular ca prop)
+
+USERS:
+   Register new users:
+      - Creare cont prin email de 365 doar + parola
+
+ROLES:
+   Manage Roles:
+      - Fetch Roles from db, si afisarea tabelului cu rolurile in frontend
+      - Nu va fi nevoie de paginatie (tabel prea mic)
+      - Va fi maxim tabel care permite scroll daca devine prea mare (improbabil)
+      - Se poate sterge un rol, cu buton cos de gunoi in tabel, apoi refetch roles call API
+      - Se poate adauga un rol nou, body: name, description. Name sa fie caps automat, si fara spatii " " in interior,
+        se face POST, si apoi refetch roles call API
+
+   
+   Asignare Roluri catre User:
+      - Ramane din Manage Roles cumva sa pastrez const Roles, ca sa nu dau iar refetch, si sa il pasez mai departe ca prop aici (id, nume rol)
+      - Cautam un user existent prin findByEmail API call (TODO: Backend sa includa si user_roles in response)
+      - Se actualizeaza componenta copil cu datele userului preluate din backend, incluzand rolurile acestuia
+        (fetch user, apoi fetch user's roles incluzand din response-ul de user, ce user_id)
+        (sau alternativa, includ si user_roles in response de la fetch user, ca sa nu mai fie nevoie, si eventual din user_roles,
+        se include si roles object, ca sa le am pe toate direct, sa nu fac alt request pt viteza raspuns)
+      - afisez tabelar rolurile userului, vizual se vede doar numele rolului, si butonul de delete (cos de gunoi), onClick => call RemoveRole API
+      - includ si Asignare Rol -> dropmenu pentru selectare rol, dupa ce selectez un rol din lista de roluri, Enable AddRoleButton,
+                               -> daca rolul este deja asignat, ramane disabled button, si apare un toast Error (initial doar
+                                    un div cu text de eroare similar cu cel de login credential error)
+                               -> daca e bine pana aici, onClick se apeleaza AssignRole API care include userId si Role ID 
+                                  (va fi nevoie sa pastram pe fiecare lista de roles, intreg obiectul Role, dar display vizual,
+                                  ramane numai numele sau, dar in spate va avea si key, id etc.)
+
+
+TODO:
+PAGINA UPLOAD:
+- Cand dau publish, sa nu uit de url(url ala de proiect, nu Bucket!!) si key pt Bucket Supabase, altfel nu merge sa dau upload cu fisiere!!!
+
+- De facut delete si edit post functionality

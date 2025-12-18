@@ -1,4 +1,5 @@
 import { api } from "./index";
+import { type Roles } from "@/types/role.types";
 
 export interface MeResponse {
   id: string;
@@ -21,13 +22,15 @@ export interface UserProfile {
   phoneNumber: string | null;
 }
 
-export const ROLES = {
-   ADMIN: "ADMIN",
-   PROFESSOR: "PROFESSOR",
-   STUDENT: "STUDENT",
-} as const;
+//TODO: Roles ar trebui sa fie dinamice, incarcate din backend, nu hardcodate aici
+//      Am facut un type in Role.types.ts pentru ele, asta e versunea veche, comentata
+// export const ROLES = {
+//    ADMIN: "ADMIN",
+//    PROFESSOR: "PROFESSOR",
+//    STUDENT: "STUDENT",
+// } as const;
 
-export type Roles = typeof ROLES[keyof typeof ROLES];
+// export type Roles = typeof ROLES[keyof typeof ROLES];
 
 
 async function getMeApi(): Promise<MeResponse> {

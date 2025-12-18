@@ -1,5 +1,5 @@
 // src/pages/News.tsx
-import { ROLES } from "@/api/user";
+// import { ROLES } from "@/api/user";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { PostCard } from "@/components/shared/PostCard";
 import { useAuth } from "@/hooks/useAuth";
@@ -34,7 +34,7 @@ const News = () => {
           icon={<Calendar className="h-6 w-6" />}
         />
 
-        {roles?.includes(ROLES.PROFESSOR) && (
+        {roles?.includes("PROFESSOR") && (
           <div>
             <Link to={"/upload"}>
               <Button

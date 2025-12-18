@@ -7,14 +7,14 @@ import { useState } from "react";
 import NavItem from "./NavItem";
 import AuthNavItem from "./AuthNavItem";
 import { useAuth } from "@/hooks/useAuth";
-import { ROLES } from "@/api/user";
+// import { ROLES } from "@/api/user";
 
 // Linkuri din sectiunea principala de navigare
 const navLinks = [
   {href: "/news", label: "Anunturi", icon: Newspaper},
   {href: "/events", label: "Evenimente", icon: CalendarDays},
   {href: "/profile", label: "Profil", icon: User},
-  {href: "/admin", label: "Admin", icon: Shield, role: ROLES.ADMIN}
+  {href: "/admin", label: "Admin", icon: Shield, role: "ADMIN"}
 ]
 
 const Nav = () => {

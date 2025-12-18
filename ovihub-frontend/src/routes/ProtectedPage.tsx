@@ -1,4 +1,5 @@
-import type { Roles } from "@/api/user";
+// import type { Roles } from "@/api/user";
+import { type Roles } from "@/types/role.types";
 import { useAuth } from "@/hooks/useAuth";
 import { Navigate } from "react-router-dom";
 
