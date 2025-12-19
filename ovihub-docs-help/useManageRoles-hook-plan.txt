@@ -1,0 +1,16 @@
+1) Ce face acest hook?
+Se ocupa de managementul rolurilor
+
+2) Ce date trebuie sa tin, ce ux state am nevoie?
+roles = lista de roluri care se afla in baza de date 
+loading = status pentru spinner 
+successMessage = mesaj de succes daca totul merge bine, afisat userului dupa request
+errorMessage = mesaj de eroare daca se intampla ceva, afisat userului dupa request 
+
+3) Ce actiuni poate face componenta pe hook?
+fetchRoles() = returneaza toate rolurile din backend prin API
+createRole() = adauga un nou rol in bd prin API call
+deleteRole() = sterge un rol din bd prin API call
+
+4) Ce va folosi componenta UI ?
+state si functiile respective

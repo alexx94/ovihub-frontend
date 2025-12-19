@@ -1,27 +1,14 @@
-// src/pages/Admin.tsx
-
 import AssignUserRoles from "@/components/admin/AssignUserRoles";
 import CreateUser from "@/components/admin/CreateUser";
 import ManageRoles from "@/components/admin/ManageRoles";
 import { PageHeader } from "@/components/shared/PageHeader";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-// import { ROLES } from "@/api/user";
-import { type Roles } from "@/types/role.types";
-import { useEffect, useState } from "react";
 
 const Admin = () => {
-  const [roles, setRoles] = useState<Roles[]>([]);
-  //TODO: Admin Api that interacts with User and Role API, and hook for it here
-
-  useEffect(() => {
-    const loadRoles = async () => {
-      //TODO: data = fetchRoles()
-      const data = ["ADMIN", "PROFESSOR", "STUDENT"];
-      setRoles(data);
-    };
-    loadRoles();
-  }, []);
+  //TODO: S-ar putea sa fie mai ok sa fac fetch cand incarc componenta ADMIN pentru roles,
+  //      ca sa nu faca fetch de mai multe ori cand navig intre sectiuni, dar asta e ok 
+  //      momentan, pe viitor ca imbunatatire pt eficienta.
 
   return (
     <div className="border-2 border-red-500 container mx-auto py-8 px-4">
@@ -44,11 +31,11 @@ const Admin = () => {
               </TabsContent>
               
               <TabsContent value="manage-roles">
-                <ManageRoles onRolesChange={setRoles} />
+                <ManageRoles />
               </TabsContent>
               
               <TabsContent value="assign-roles">
-                <AssignUserRoles roles={roles} />
+                <AssignUserRoles />
               </TabsContent>
             </Tabs>
           </CardContent>

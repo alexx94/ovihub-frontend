@@ -1,0 +1,22 @@
+1) Ce face acest hook?
+Hook ul se ocupa de crearea unui user nou, refresh formului dupa trimiterea datelor si afisarea raspunsului din request API.
+
+2) Ce date trebuie sa tin, ce ux state am nevoie?
+email = campul cu emailul noului utilizator creat 
+password = camp cu parola noului utillizator creat
+loading= pentru spinner, cand se produce requestul
+successMessage = mesaj de succes daca totul merge bine, afisat userului dupa request
+errorMessage = mesaj de eroare daca se intampla ceva, afisat userului dupa request 
+
+3) Ce actiuni poate face componenta pe hook?
+registerUser() = apelul catre backend API
+refresh() = dupa submit , cand se termina requestul, se proceseaza formul, goleste inputul, valori initiale
+checkInput() = inainte de call registerUser(), verifica daca inputul respecta format de email 365 universitar, parola minim 8 caractere
+
+
+4) Ce va folosi componenta UI ?
+cele 5 state, si functiile alea 3 in functie de evenimente (checkInput)
+
+
+In componenta noastra, in afara hook:
+showPassword = boolean care afiseaza sau ascunde parola introdusa
