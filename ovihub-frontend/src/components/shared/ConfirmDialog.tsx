@@ -48,7 +48,7 @@ export function ConfirmDialog({
           </DialogClose>
 
           <DialogClose asChild>
-            <Button onClick={onConfirm}>
+            <Button type="button" onClick={onConfirm}>
               {confirmText}
             </Button>
           </DialogClose>

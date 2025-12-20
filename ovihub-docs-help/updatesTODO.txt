@@ -36,3 +36,11 @@ PAGINA UPLOAD:
 - Cand dau publish, sa nu uit de url(url ala de proiect, nu Bucket!!) si key pt Bucket Supabase, altfel nu merge sa dau upload cu fisiere!!!
 
 - De facut delete si edit post functionality
+
+- User Profile page (block shadcn, cu datele de profil), permite actualizare display name si phone number
+
+TODO: -La final de proiect, sa fac refactor, sa modularizez anumite componente mai mari, si la Types sa le fac 
+mai bine impartite, momentan am destul de multe typeuri redundante, care sunt facute ca sa faca match la backend,
+nu este curat codul pe partea de types.
+      -Docker container ca sa dau publish pe Render la backend, si apoi Frontend pe Vercel
+      -Actualizat fisierele din /components/shared, nu trebuie sa stea unele pe acolo, sa le mut in alta parte

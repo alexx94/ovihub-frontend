@@ -19,16 +19,16 @@ const ManageRoles = () => {
       createRole, deleteRole,
     } = useRoles();
 
-   function handleSubmitDelete(roleId: number) {
+   async function handleSubmitDelete(roleId: number) {
       setLoading(true);
-      deleteRole(roleId);
+      await deleteRole(roleId);
    }
 
-   function handleAddRole() {
+   async function handleAddRole() {
       setLoading(true);
 
       const addedRole: RoleInput = { name: roleName, description: roleDescription };
-      createRole(addedRole);
+      await createRole(addedRole);
 
       console.log(`Rolul: ${roleName}`);
       console.log(`Rolul: ${roleDescription}`);

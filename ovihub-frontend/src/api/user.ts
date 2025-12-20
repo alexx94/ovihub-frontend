@@ -1,5 +1,5 @@
 import { api } from "./index";
-import { type Roles } from "@/types/role.types";
+import { type Role, type Roles } from "@/types/role.types";
 
 export interface MeResponse {
   id: string;
@@ -20,6 +20,16 @@ export interface UserProfile {
   lastName: string;
   pictureUrl: string | null;
   phoneNumber: string | null;
+}
+
+export interface UserResponseDto {
+   id: string;
+    email: string;
+    createdAt: string;   
+    lastLogin: string | null;
+    domain: string;
+    userProfile: UserProfile | null;
+    roles: Role[];
 }
 
 //TODO: Roles ar trebui sa fie dinamice, incarcate din backend, nu hardcodate aici
@@ -56,7 +66,14 @@ async function getMyRolesApi(): Promise<Roles[]> {
    return res.data;
 }
 
+async function findByEmailApi(email: string): Promise<UserResponseDto> {
+   const res = await api.get("/api/User", {
+      params: { email }
+   });
+   return res.data;
+}
+
 //todo: inclus aici si own roles, ca sa setam si roles in AuthContext pt ProtectedRoutes
 //      sau se poate face separat role.ts, vedem***
 
-export {getMeApi, getMyProfileApi, getMyRolesApi};
+export {getMeApi, getMyProfileApi, getMyRolesApi, findByEmailApi};

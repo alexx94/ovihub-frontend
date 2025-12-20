@@ -1,0 +1,27 @@
+Elemente UI: (**Posibil sa modific numele din Assign Roles -> Manage Users)
+1) Search User by Email
+   - For ui a basic search bar with a magnifying glass button next to it
+   - Probably will be treated as a form so that 'enter key' works by default, and preventDefault() to not reset the email input
+   - On submit, searchUser
+
+   - If user not found:
+      Display error message
+   - If user is found:
+      Render the component that displays the user info, Current Roles, and lastly the Assign New Role dropmenu
+
+
+-------------
+Componentele astea o sa fie toate sub acelasi div:
+2) User info block:
+   - email, userId, display name, phone number (if exists)
+
+3) Current Roles table:
+   - Reuse the same table component used at Manage Roles
+   - Here fetch the user's active roles (get user's roles API, or the get UserWithRoles api that includes its roles in the user get response)
+   - only change the action button, instead of calling DeleteRoleApi, it should call the RemoveRoleApi (this API removes a role from a user, not the role itself)
+   - Make the table scrollable, instead of taking space vertiaclly, for a cleaner look
+
+4) Assign New Role:
+   - Display in a dropmenu, the list of all the roles
+   - Populate dropmenu with the fetchRoles that is used also across the ManageRoles component (fetchRoles API)
+   - The add button is only enabled when a role is selected from dropmenu, and if that role also isnt already in the currentRoles list of roles (the role name)
