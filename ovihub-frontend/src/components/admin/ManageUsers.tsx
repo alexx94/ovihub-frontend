@@ -10,7 +10,7 @@ import { ConfirmDialog } from "../shared/ConfirmDialog";
 import { SpinnerCustom } from "../ui/spinner";
 
 const ManageUsers = () => {
-   const [isHidden, setIsHidden] = useState<boolean>(true); // mock data pentru testare
+   const [isHidden, setIsHidden] = useState<boolean>(true); 
    const [userEmail, setUserEmail] = useState<string>("");
    const [isLoadingUser, setIsLoadingUser] = useState<boolean>(false);
    const {

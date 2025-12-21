@@ -8,23 +8,30 @@ import { Newspaper } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { PaginationButtons } from "@/components/shared/PaginationButtons";
+import { UsePostMutations } from "@/hooks/usePostMutations";
 
 const News = () => {
   const { roles } = useAuth();
-  
   const {
     posts,
     currentPage,
-    isLoading,
-    error,
+    isLoading: isContentLoading,
+    error: paginationError,
     goToNextPage,
     goToPreviousPage,
     hasMore,
-  } = usePaginatedPosts("News");
-
-  //TODO: Description posts to only display certain number of chars and then a 'read more' link
-  //      which will expand upon clicking, to display the entire content description.
-
+    refreshCurrentPage,
+    reloadAll,
+  } = usePaginatedPosts("News"); 
+  const {
+    handleEdit, handleDelete,
+    isProcessing,
+    mutationError
+  } = UsePostMutations({
+    onSuccessEdit: refreshCurrentPage,
+    onSuccessDelete: reloadAll,
+  });
+  
   return (
     <div className="container mx-auto px-4 md:px-20 py-8">
       <div className="flex flex-col md:flex-row justify-between items-start">
@@ -52,10 +59,10 @@ const News = () => {
       </div>
 
       {/* Pagination Controls - Always visible except on very first load */}
-      {!isLoading && !error && (
+      {!isContentLoading && !paginationError && (
         <PaginationButtons
           currentPage={currentPage}
-          isLoading={isLoading}
+          isLoading={isContentLoading}
           hasMore={hasMore}
           onPrev={goToPreviousPage}
           onNext={goToNextPage}
@@ -63,19 +70,20 @@ const News = () => {
       )}
 
       {/* Error State */}
-      {error && (
+      {(paginationError || mutationError) && (
         <div
           className="mt-6 rounded-lg border border-destructive/50 bg-destructive/10 p-4 text-destructive"
           role="alert"
         >
-          <p className="font-semibold">Eroare la încărcarea postărilor</p>
+          <p className="font-semibold">Eroare la actualizarea postărilor</p>
           <p className="font-semibold">Dati refresh paginii si incercati din nou</p>
-          <p className="text-sm">{error}</p>
+          <p className="text-sm">{paginationError}</p>
+          <p className="text-sm">{mutationError}</p>
         </div>
       )}
 
       {/* Loading State */}
-      {isLoading && (
+      {(isContentLoading || isProcessing) && (
         <div className="mt-8 flex flex-col items-center justify-center space-y-4 py-12">
           <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
           <p className="text-muted-foreground">Se încarcă postările...</p>
@@ -83,7 +91,7 @@ const News = () => {
       )}
 
       {/* Content - Posts */}
-      {!isLoading && !error && (
+      {!(isContentLoading || isProcessing) && !paginationError && (
         <>
           {posts.length > 0 ? (
             <div className="mt-8 space-y-6 md:px-30">
@@ -93,7 +101,12 @@ const News = () => {
                   className="animate-slide-up"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <PostCard post={post} />
+                  <PostCard 
+                    post={post} 
+                    roles={roles} 
+                    handleEdit={handleEdit} 
+                    handleDelete={handleDelete}  
+                  />
                 </div>
               ))}
             </div>

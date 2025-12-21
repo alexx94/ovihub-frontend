@@ -10,6 +10,8 @@ interface UsePaginatedPostsResult {
   goToNextPage: () => void;
   goToPreviousPage: () => void;
   hasMore: boolean;
+  refreshCurrentPage: () => void;
+  reloadAll: () => void;
 }
 
 export const usePaginatedPosts = (
@@ -109,6 +111,20 @@ export const usePaginatedPosts = (
     }
   }, [isLoading, currentPage]);
 
+  // Functie de refresh pentru logica de editPost, dupa succes, se da refresh
+  const refreshCurrentPage = useCallback(() => {
+    const key = getCacheKey(currentPage);
+    cacheRef.current.delete(key); // Ștergem intrarea din cache
+    loadPosts(currentPage);       // Forțăm fetch de la server
+  }, [currentPage, getCacheKey, loadPosts]);
+
+  // Functie de reload pentru logica de deletePost, dupa succes, 
+  // se invalideaza tot ce avem deja si se reincarca, incepand cu pagina curenta
+  const reloadAll = useCallback(() => {
+    cacheRef.current.clear(); // Golește tot istoricul
+    loadPosts(currentPage);   // Reîncarcă situația actuală
+  }, [loadPosts, currentPage]);
+
   return {
     posts,
     currentPage,
@@ -117,5 +133,7 @@ export const usePaginatedPosts = (
     goToNextPage,
     goToPreviousPage,
     hasMore,
+    refreshCurrentPage,
+    reloadAll,
   };
 };

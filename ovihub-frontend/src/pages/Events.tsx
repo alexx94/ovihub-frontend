@@ -1,17 +1,16 @@
 // src/pages/News.tsx
 // import { ROLES } from "@/api/user";
 import { PageHeader } from "@/components/shared/PageHeader";
-import { PostCard } from "@/components/shared/PostCard";
+import { PostCard, type MenuAction } from "@/components/shared/PostCard";
 import { useAuth } from "@/hooks/useAuth";
 import { usePaginatedPosts } from "@/hooks/usePaginatedPosts";
-import { Calendar } from "lucide-react";
+import { Calendar, Pencil, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { PaginationButtons } from "@/components/shared/PaginationButtons";
 
 const News = () => {
   const { roles } = useAuth();
-  
   const {
     posts,
     currentPage,
@@ -22,8 +21,8 @@ const News = () => {
     hasMore,
   } = usePaginatedPosts("StudentEvent");
 
-  //TODO: Description posts to only display certain number of chars and then a 'read more' link
-  //      which will expand upon clicking, to display the entire content description.
+  // Mock up postActions
+
 
   return (
     <div className="container mx-auto px-4 md:px-20 py-8">
@@ -93,7 +92,7 @@ const News = () => {
                   className="animate-slide-up"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <PostCard post={post} />
+                  <PostCard post={post} roles={roles} />
                 </div>
               ))}
             </div>

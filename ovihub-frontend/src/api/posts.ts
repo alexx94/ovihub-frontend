@@ -8,6 +8,7 @@ import type {
   PaginatedPostsParams, 
   PaginatedPostsResponse 
 } from "../types/post.types";
+type UpdatePostData = Omit<CreatePostData, "postImageIds">;
 
 /**
  * Transformă răspunsul backend-ului pentru a extrage doar câmpurile necesare din images
@@ -44,7 +45,7 @@ export const fetchPaginatedPosts = async (
       params: {
         type: params.type,
         page: params.page,
-        limit: params.limit || 1, // Momentan nu permitem setarea limit-ului din frontend, e 1 default ca sa se observe paginatia
+        limit: params.limit || 3, // Momentan nu permitem setarea limit-ului din frontend, e 1 default ca sa se observe paginatia
       },
     });
 
@@ -84,3 +85,16 @@ export const uploadPostImages = async(files: File[]): Promise<PostImage[]> => {
 
   return response.data;
 }
+
+export const updatePost = async (
+  id: number, 
+  data: UpdatePostData
+): Promise<Post> => {
+  const response = await api.put<Post>(`/api/Post/${id}`, data);
+  return response.data;
+};
+
+export const deletePost = async (id: number): Promise<string> => {
+  const response = await api.delete(`/api/Post/${id}`);
+  return response.data;
+};
