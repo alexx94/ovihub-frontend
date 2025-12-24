@@ -1,9 +1,9 @@
-import { useState, useEffect, useRef, useCallback } from "react";
-import { fetchPaginatedPosts } from "../api/posts";
-import type { Post, PostType } from "../types/post.types";
+import { fetchEventsPaginated } from "@/api/posts";
+import type { EventDto } from "@/types/post.types";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-interface UsePaginatedPostsResult {
-  posts: Post[];
+interface UseEventsPostsResult {
+  posts: EventDto[];
   currentPage: number;
   isLoading: boolean;
   error: string | null;
@@ -14,25 +14,21 @@ interface UsePaginatedPostsResult {
   reloadAll: () => void;
 }
 
-export const usePaginatedPosts = (
-  postType: PostType
-): UsePaginatedPostsResult => {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
+export const useEventsPosts = (): UseEventsPostsResult => {
+   const [posts, setPosts] = useState<EventDto[]>([]);
+   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hasMore, setHasMore] = useState(true);
 
-  // Cache storage - persistă între renders, dispare la unmount
-  const cacheRef = useRef<Map<string, Post[]>>(new Map());
+  const cacheRef = useRef<Map<string, EventDto[]>>(new Map());
 
-  // Cache key generator
   const getCacheKey = useCallback(
-    (page: number) => `${postType}-${page}`,
-    [postType]
-  );
+      (page: number) => `$${page}`,
+      []
+   );
 
-  const loadPosts = useCallback(
+   const loadPosts = useCallback(
     async (page: number) => {
       const cacheKey = getCacheKey(page);
 
@@ -52,8 +48,7 @@ export const usePaginatedPosts = (
       try {
 
         //TODO: Check postType, if event => call EventSpecific fetch method (imi e ca va fi nevoie de hook separat,)
-        const response = await fetchPaginatedPosts({
-          type: postType,
+        const response = await fetchEventsPaginated({
           page,
         });
 
@@ -76,14 +71,14 @@ export const usePaginatedPosts = (
         setIsLoading(false);
       }
     },
-    [postType, getCacheKey]
+    [getCacheKey]
   );
 
   useEffect(() => {
-    loadPosts(currentPage);
-  }, [currentPage, loadPosts]);
+      loadPosts(currentPage);
+    }, [currentPage, loadPosts]);
 
-  useEffect(() => {
+   useEffect(() => {
     if (posts.length > 0) {
       // Dacă suntem pe o pagină cu conținut din cache, verifică dacă există pagina următoare în cache
       const nextPageKey = getCacheKey(currentPage + 1);
@@ -138,4 +133,4 @@ export const usePaginatedPosts = (
     refreshCurrentPage,
     reloadAll,
   };
-};
+}

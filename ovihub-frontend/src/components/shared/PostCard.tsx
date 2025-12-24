@@ -20,6 +20,7 @@ import {
 import { Field, FieldGroup, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
+import { EventActionButtons } from "../posts/event-buttons";
 
 interface PostCardProps {
   post: Post;
@@ -27,9 +28,10 @@ interface PostCardProps {
   className?: string;
   handleEdit: (originalPost: Post, title: string, description: string) => void;
   handleDelete: (postId: number) => void;
+  handleSignUp?: (postId: number, isUserParticipating: boolean) => void;
 }
 
-export function PostCard({ post, roles, handleEdit, handleDelete, className }: PostCardProps) {
+export function PostCard({ post, roles, handleEdit, handleDelete, handleSignUp, className }: PostCardProps) {
   const MAX_CHARS = 100;
   const [expanded, setExpanded] = useState<boolean>(false);
   const formattedDate = new Date(post.createdAt).toLocaleDateString("ro-RO", {
@@ -47,6 +49,7 @@ export function PostCard({ post, roles, handleEdit, handleDelete, className }: P
   const hasChanges = (cleanTitle !== post.title.trim() || cleanDescription !== post.description.trim()) && (
                       cleanTitle.length > 0 && cleanDescription.length > 0
                     )
+  const isUserParticipating = 'isJoined' in post ? !!post.isJoined : false;
 
   return (
     <article
@@ -164,6 +167,7 @@ export function PostCard({ post, roles, handleEdit, handleDelete, className }: P
                     disabled={!hasChanges}
                     type="button"
                     onClick={() => {
+                      console.log('Date postare', post);
                       handleEdit(post, editTitle, editDescription)
                       setShowEditDialog(false);
                     }}
@@ -203,6 +207,22 @@ export function PostCard({ post, roles, handleEdit, handleDelete, className }: P
         }
       </div>
 
+      {(post.postType === 'StudentEvent' && roles?.some(role => ["ADMIN", "PROFESSOR", "STUDENT"].includes(role))) && (
+        <div className="flex gap-2 mt-3 items-center">
+          
+          <EventActionButtons 
+            postId={post.id}
+            postTitle={post.title}
+            isJoined={isUserParticipating}
+            onToggleJoin={(id) => {
+              if (handleSignUp) handleSignUp(id, isUserParticipating);
+              else console.error('Nu se poate apela handleSignUp()');
+            }}
+          />
+          
+        </div>
+      )}
+      
       {/* Afisare continut postare */}
       <div className="mt-4">
         <h3 className="text-lg font-semibold text-foreground">{post.title}</h3>

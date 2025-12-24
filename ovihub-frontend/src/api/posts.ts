@@ -1,12 +1,15 @@
 import { api } from "./index"; // axios instance-ul tău
 import type { 
-  Post,
+  Post, EventDto,
   CreatePostData,
   BackendPost,
   BackendPostImage,
   PostImage, 
   PaginatedPostsParams, 
-  PaginatedPostsResponse 
+  PaginatedPostsResponse,
+  BackendEventPostResponseDto,
+  EventsPaginatedPostsParams,
+  PaginatedEventResponse,
 } from "../types/post.types";
 type UpdatePostData = Omit<CreatePostData, "postImageIds">;
 
@@ -28,6 +31,13 @@ const transformPost = (post: BackendPost): Post => {
   return {
     ...post,
     images: transformPostImages(post.images || []),
+  };
+};
+
+const transformEvent = (eventPost: BackendEventPostResponseDto): EventDto => {
+  return {
+    ...eventPost,
+    images: transformPostImages(eventPost.images || []),
   };
 };
 
@@ -63,6 +73,31 @@ export const fetchPaginatedPosts = async (
     throw error;
   }
 };
+
+export const fetchEventsPaginated = async (
+  params: EventsPaginatedPostsParams
+): Promise<PaginatedEventResponse> => {
+  try {
+    const response = await api.get<BackendEventPostResponseDto[]>(
+      "/api/Post/events", {
+        params: {
+          page: params.page,
+          limit: params.limit || 3, // Lasam 3 momentan, nu o sa fac apel custom acum
+        },
+      })
+
+    const transformedData = response.data.map(transformEvent);
+    console.log("Fetching Events Posts: ", Date.now());
+
+    return {
+      data: transformedData,
+      currentPage: params.page,
+    };
+  } catch (error) {
+    console.error("Error fetching paginated posts:", error);
+    throw error;
+  }
+}
 
 export const createPost = async (data: CreatePostData): Promise<Post> => {
   console.log("Date de input POST: ", data)

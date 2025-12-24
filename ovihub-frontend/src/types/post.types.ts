@@ -65,8 +65,28 @@ export interface Post {
   images: PostImage[];
 }
 
+export interface EventDto {
+  id: number;
+  title: string;
+  description: string;
+  postType: PostType;
+  createdAt: string;
+  updatedAt: string;
+  userId: string;
+  userEmail: string;
+  author: string;
+  images: PostImage[];
+  participatingUserId: string;
+  isJoined: boolean;
+}
+
 export interface PaginatedPostsParams {
   type: PostType;
+  page: number;
+  limit?: number;
+}
+
+export interface EventsPaginatedPostsParams {
   page: number;
   limit?: number;
 }
@@ -75,3 +95,24 @@ export interface PaginatedPostsResponse {
   data: Post[];
   currentPage: number;
 }
+
+export interface PaginatedEventResponse {
+  data: EventDto[];
+  currentPage: number;
+}
+
+export interface BackendEventPostResponseDto {
+  id: number;
+  title: string;
+  description: string;
+  postType: PostType;
+  createdAt: string;
+  updatedAt: string;
+  userId: string;
+  userEmail: string;
+  author: string;
+  images: BackendPostImage[];
+  participatingUserId: string;
+  isJoined: boolean;
+}
+

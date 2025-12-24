@@ -7,7 +7,7 @@ interface UsePostMutationsProps {
    onSuccessDelete: () => void;
 }
 
-export const UsePostMutations = ({
+export const usePostMutations = ({
     onSuccessEdit, 
     onSuccessDelete 
 }: UsePostMutationsProps) => {

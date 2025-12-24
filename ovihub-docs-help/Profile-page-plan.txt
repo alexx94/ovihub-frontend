@@ -1,0 +1,21 @@
+UI:
+Header 
+   - un card principal cu Numele userului, 
+   - Afisam si un 'avatar' generat din initialele numelui
+   - rolurile userului puse langa nume, sub forma de componenta shadcn Tag, cu diferite culori
+
+Card Informatii de contact (doar astea momentan, nefiind o app complexa):
+   - emailul universitar
+   - numar de telefon (daca nu e trecut, e null, includem un text specific)
+   - Buton Editeaza pentru informatii
+
+   ^^^^ este editabil doar nr. de telefon momentan. La click Editeaza, devin editabile campurile din informatii contact,
+        cu exceptia campurilor uneditable, unde o sa avem by default email-ul, restul vor fi editable.
+
+//TODO: Backend sa modific la generare userprofile, primele litere din first si last name sa fie litere mari
+si restul logicii de generare UserProfile la /register user
+
+
+
+//TODO: De modularizat toata functionalitate de Profile pt ca arata ca un cacat ordinar
+HOOKS:

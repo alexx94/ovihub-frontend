@@ -1,29 +1,51 @@
 // src/pages/News.tsx
 // import { ROLES } from "@/api/user";
 import { PageHeader } from "@/components/shared/PageHeader";
-import { PostCard, type MenuAction } from "@/components/shared/PostCard";
+import { PostCard } from "@/components/shared/PostCard";
 import { useAuth } from "@/hooks/useAuth";
-import { usePaginatedPosts } from "@/hooks/usePaginatedPosts";
-import { Calendar, Pencil, Trash } from "lucide-react";
+// import { usePaginatedPosts } from "@/hooks/usePaginatedPosts";
+import { Calendar, Loader2,  } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { PaginationButtons } from "@/components/shared/PaginationButtons";
+import { usePostMutations } from "@/hooks/usePostMutations";
+import { useEventsPosts } from "@/hooks/events/useEventsPosts";
+import { useEventParticipation } from "@/hooks/events/useEventParticipation";
 
-const News = () => {
+const Events = () => {
   const { roles } = useAuth();
   const {
-    posts,
+    posts, // posts aici vor fi doar StudentEvent type
     currentPage,
-    isLoading,
-    error,
+    isLoading: isContentLoading,
+    error: paginationError,
     goToNextPage,
     goToPreviousPage,
     hasMore,
-  } = usePaginatedPosts("StudentEvent");
+    refreshCurrentPage,
+    reloadAll,
+  } = useEventsPosts();
+  const {
+      handleEdit, handleDelete,
+      isProcessing,
+      mutationError
+    } = usePostMutations({
+      onSuccessEdit: refreshCurrentPage,
+      onSuccessDelete: reloadAll,
+    });
+  const {
+    handleToggleParticipation,
+    isSubmitting
+  } = useEventParticipation({
+    onSuccess: refreshCurrentPage
+});
 
-  // Mock up postActions
-
-
+  if (isSubmitting) return (
+        <div className="flex h-[50vh] w-full items-center justify-center">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+    );
+    
   return (
     <div className="container mx-auto px-4 md:px-20 py-8">
       <div className="flex flex-col md:flex-row justify-between items-start">
@@ -51,10 +73,10 @@ const News = () => {
       </div>
 
       {/* Pagination Controls - Always visible except on very first load */}
-      {!isLoading && !error && (
+      {!isContentLoading && !paginationError && (
         <PaginationButtons
           currentPage={currentPage}
-          isLoading={isLoading}
+          isLoading={isContentLoading}
           hasMore={hasMore}
           onPrev={goToPreviousPage}
           onNext={goToNextPage}
@@ -62,19 +84,20 @@ const News = () => {
       )}
 
       {/* Error State */}
-      {error && (
+      {(paginationError || mutationError) && (
         <div
           className="mt-6 rounded-lg border border-destructive/50 bg-destructive/10 p-4 text-destructive"
           role="alert"
         >
-          <p className="font-semibold">Eroare la încărcarea postărilor</p>
+          <p className="font-semibold">Eroare la actualizarea postărilor</p>
           <p className="font-semibold">Dati refresh paginii si incercati din nou</p>
-          <p className="text-sm">{error}</p>
+          <p className="text-sm">{paginationError}</p>
+          <p className="text-sm">{mutationError}</p>
         </div>
       )}
 
       {/* Loading State */}
-      {isLoading && (
+      {(isContentLoading || isProcessing) && (
         <div className="mt-8 flex flex-col items-center justify-center space-y-4 py-12">
           <div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" />
           <p className="text-muted-foreground">Se încarcă postările...</p>
@@ -82,7 +105,7 @@ const News = () => {
       )}
 
       {/* Content - Posts */}
-      {!isLoading && !error && (
+      {!(isContentLoading || isProcessing) && !paginationError && (
         <>
           {posts.length > 0 ? (
             <div className="mt-8 space-y-6 md:px-30">
@@ -92,7 +115,13 @@ const News = () => {
                   className="animate-slide-up"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <PostCard post={post} roles={roles} />
+                  <PostCard 
+                    post={post} 
+                    roles={roles} 
+                    handleEdit={handleEdit} 
+                    handleDelete={handleDelete}  
+                    handleSignUp={handleToggleParticipation}
+                  />
                 </div>
               ))}
             </div>
@@ -116,4 +145,4 @@ const News = () => {
   );
 };
 
-export default News;
+export default Events;

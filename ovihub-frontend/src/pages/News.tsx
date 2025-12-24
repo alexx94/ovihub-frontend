@@ -8,7 +8,7 @@ import { Newspaper } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { PaginationButtons } from "@/components/shared/PaginationButtons";
-import { UsePostMutations } from "@/hooks/usePostMutations";
+import { usePostMutations } from "@/hooks/usePostMutations";
 
 const News = () => {
   const { roles } = useAuth();
@@ -27,7 +27,7 @@ const News = () => {
     handleEdit, handleDelete,
     isProcessing,
     mutationError
-  } = UsePostMutations({
+  } = usePostMutations({
     onSuccessEdit: refreshCurrentPage,
     onSuccessDelete: reloadAll,
   });

@@ -32,15 +32,9 @@ export interface UserResponseDto {
     roles: Role[];
 }
 
-//TODO: Roles ar trebui sa fie dinamice, incarcate din backend, nu hardcodate aici
-//      Am facut un type in Role.types.ts pentru ele, asta e versunea veche, comentata
-// export const ROLES = {
-//    ADMIN: "ADMIN",
-//    PROFESSOR: "PROFESSOR",
-//    STUDENT: "STUDENT",
-// } as const;
-
-// export type Roles = typeof ROLES[keyof typeof ROLES];
+export interface EditProfileInfoDto {
+  phoneNumber: string | null;
+}
 
 
 async function getMeApi(): Promise<MeResponse> {
@@ -51,7 +45,7 @@ async function getMeApi(): Promise<MeResponse> {
    return res.data;
 }
 
-async function getMyProfileApi(): Promise<UserProfile> {
+async function getMyProfileApi(): Promise<UserResponseDto> {
    const res = await api.get("/api/User/me/profile", {
       validateStatus: () => true
    });
@@ -73,7 +67,9 @@ async function findByEmailApi(email: string): Promise<UserResponseDto> {
    return res.data;
 }
 
-//todo: inclus aici si own roles, ca sa setam si roles in AuthContext pt ProtectedRoutes
-//      sau se poate face separat role.ts, vedem***
+async function updateUserProfile(dto: EditProfileInfoDto): Promise<UserProfile> {
+  const response = await api.put<UserProfile>("/api/User/me/profile", dto);
+  return response.data;
+}
 
-export {getMeApi, getMyProfileApi, getMyRolesApi, findByEmailApi};
+export { getMeApi, getMyProfileApi, getMyRolesApi, findByEmailApi, updateUserProfile, type Roles };

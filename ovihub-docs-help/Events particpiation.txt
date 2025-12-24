@@ -1,0 +1,3 @@
+-TODO:
+Cand apas pe Lista Participanti => fetch participanti (join user - eventparticipants where ep.post_id = postId)
+Populeaza apoi fereastra tip dialog deschis, cu datele userilor participanti din backend, formatat in tabel email + nume,prenume
